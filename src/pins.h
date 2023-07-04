@@ -12,7 +12,7 @@
 #define PIN_LCD_D6                   47
 #define PIN_LCD_D7                   48
 
-#define PIN_POWER_ON                 15
+#define PIN_LCD_POWER_ON                 15
 
 #define PIN_LCD_RES                  5
 #define PIN_LCD_CS                   6
@@ -24,8 +24,12 @@
 #define PIN_BUTTON_2                 14
 #define PIN_BAT_VOLT                 4
 
-#define PIN_IIC_SCL                  17
-#define PIN_IIC_SDA                  18
+#define PIN_UART1_RXD                18
+#define PIN_UART1_TXD                17
+#define PIN_GSP_PPS                  21
 
-#define PIN_TOUCH_INT                16
-#define PIN_TOUCH_RES                21
+#define PIN_IIC_SCL                  1
+#define PIN_IIC_SDA                  2
+
+
+

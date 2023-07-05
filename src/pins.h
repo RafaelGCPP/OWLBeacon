@@ -26,7 +26,7 @@
 
 #define PIN_UART1_RXD                18
 #define PIN_UART1_TXD                17
-#define PIN_GSP_PPS                  21
+#define PIN_GPS_PPS                  21
 
 #define PIN_IIC_SCL                  1
 #define PIN_IIC_SDA                  2

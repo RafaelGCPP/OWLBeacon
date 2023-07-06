@@ -1,7 +1,9 @@
 #pragma once
-#include <UbxGpsNavPvt.h>
+#include <HardwareSerial.h>
+#include <MicroNMEA.h>
 
-extern UbxGpsNavPvt<HardwareSerial> gps;
+extern HardwareSerial gps_serial;
+extern MicroNMEA gps_data;
 
 void pps_interrupt();
 void setup_gps();

@@ -7,7 +7,6 @@
 #include "state.h"
 
 HWCDC console=Serial;
-TransceiverState current_state;
 
 void setup() {
 
@@ -27,7 +26,8 @@ void setup() {
 }
 
 void loop() {
-  query_gps();
   update_display();  
+  query_gps();
+
 }
 

@@ -3,7 +3,12 @@
 enum TransceiverState {
     STATE_NO_FIX,
     STATE_READY,
-    STATE_TRANSMITTING
+    STATE_PPS_UPDATE,
+    STATE_TRANSMITTING,
+
+    STATE_UNDEFINED=-1
 };
 
-extern TransceiverState current_state;
+// extern TransceiverState current_state;
+void set_state(TransceiverState);
+TransceiverState get_state();

@@ -3,13 +3,14 @@
 #include "pins.h"
 #include "gps.h"
 #include "config.h"
+#include "state.h"
 
 HardwareSerial gps_serial(1);
 char buffer[MICRONMEA_BUFFER_SIZE];
 MicroNMEA gps_data(buffer,MICRONMEA_BUFFER_SIZE);
 
 void pps_interrupt() {
-
+  if (get_state()==STATE_READY) set_state(STATE_PPS_UPDATE);  
 }
 
 void setup_gps() {
@@ -23,7 +24,11 @@ void  query_gps() {
   while(gps_serial.available()) {
     char c=gps_serial.read();
     if (gps_data.process(c)) {
-
+      if (gps_data.isValid()) {
+        set_state(STATE_READY);
+      } else {
+        set_state(STATE_NO_FIX);
+      }
     }
   }
     

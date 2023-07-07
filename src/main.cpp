@@ -1,23 +1,24 @@
 #include <Arduino.h>
 #include <HardwareSerial.h>
-#include <UbxGpsNavPvt.h>
 #include "gps.h"
 #include "display.h"
 #include "pins.h"
+#include "config.h"
+#include "state.h"
 
 HWCDC console=Serial;
-
+TransceiverState current_state;
 
 void setup() {
 
-  console.begin(115200);
-  gps_serial.begin(115200,SERIAL_8N1,PIN_UART1_RXD, PIN_UART1_TXD);
+  console.begin(CONSOLE_BAUD_RATE);
   
+  current_state=STATE_NO_FIX;
 
   pinMode(PIN_LCD_POWER_ON, OUTPUT);
   digitalWrite(PIN_LCD_POWER_ON, LOW);
 
-  // setup_gps();
+  setup_gps();
 
   setup_display();
 
@@ -27,12 +28,6 @@ void setup() {
 
 void loop() {
   query_gps();
-
-  if (gps_serial.available()) {
-    int buf=gps_serial.read();
-    console.print((char) buf);
-  }
-
-  
+  update_display();  
 }
 

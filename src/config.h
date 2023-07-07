@@ -1,0 +1,5 @@
+#pragma once
+
+#define CONSOLE_BAUD_RATE 115200
+#define GPS_BAUD_RATE 115200
+#define MICRONMEA_BUFFER_SIZE 255

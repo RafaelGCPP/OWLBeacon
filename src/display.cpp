@@ -10,7 +10,5 @@ void setup_display() {
 }
 
 void update_display() {
-    tft.fillScreen(TFT_RED); delay(1000);
-    tft.fillScreen(TFT_GREEN); delay(1000);
-    tft.fillScreen(TFT_BLUE); delay(1000);
+
 }

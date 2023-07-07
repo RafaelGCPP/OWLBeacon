@@ -23,13 +23,12 @@ void  query_gps() {
 
   while(gps_serial.available()) {
     char c=gps_serial.read();
-    if (gps_data.process(c)) {
-      if (gps_data.isValid()) {
-        set_state(STATE_READY);
-      } else {
-        set_state(STATE_NO_FIX);
-      }
-    }
+    if (!gps_data.process(c)) return;
+    if (!gps_data.isValid()) {
+      if (get_state()==STATE_READY) set_state(STATE_FIX_LOST);
+      return;
+    };
+    
   }
     
 }

@@ -5,7 +5,7 @@ enum TransceiverState {
     STATE_READY,
     STATE_PPS_UPDATE,
     STATE_TRANSMITTING,
-
+    STATE_FIX_LOST,
     STATE_UNDEFINED=-1
 };
 

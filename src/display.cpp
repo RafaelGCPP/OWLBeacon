@@ -1,5 +1,7 @@
 #include "display.h"
 #include "state.h"
+#include "gps.h"
+#include "config.h"
 
 enum TransceiverState previous_state;
 
@@ -11,6 +13,24 @@ void setup_display()
     tft.init();
     tft.setRotation(1);
     tft.fillScreen(TFT_BLACK);
+}
+
+void milionths_to_string(long value, char *out) 
+{
+    ldiv_t result;
+    int degrees, minutes;
+    float seconds;
+
+    result=ldiv(abs(value),1000000L);
+    value=result.rem*60;
+
+    result=ldiv(value,1000000L);
+    minutes=result.quot;
+
+    value=result.rem*60;
+    seconds=value/1.0e6;
+
+    snprintf(out,BUFFER_SIZE,"%d`%d'%5.2f\"",degrees,minutes,seconds);
 }
 
 void update_display()
@@ -49,6 +69,23 @@ void update_display()
     default:
         break;
     }
+    char buffer[BUFFER_SIZE];
     tft.setCursor(5, 5, 4);
-    tft.print("GPS fix acquired.");
+
+  
+    long l=gps_data.getLatitude();
+    milionths_to_string(l,buffer);
+
+    tft.print("Lat: ");
+    tft.print(buffer);
+    tft.println((l>0)?" N":" S");
+
+
+    l=gps_data.getLongitude();
+    milionths_to_string(l,buffer);
+
+    tft.print("Lon: ");
+    tft.print(buffer);
+    tft.println((l>0)?" E":" W");
+
 }

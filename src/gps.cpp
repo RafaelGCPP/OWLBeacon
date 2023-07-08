@@ -6,10 +6,10 @@
 #include "state.h"
 
 HardwareSerial gps_serial(1);
-char buffer[MICRONMEA_BUFFER_SIZE];
-MicroNMEA gps_data(buffer,MICRONMEA_BUFFER_SIZE);
+char buffer[BUFFER_SIZE];
+MicroNMEA gps_data(buffer,BUFFER_SIZE);
 
-void pps_interrupt() {
+void IRAM_ATTR pps_interrupt() {
   if (get_state()==STATE_READY) set_state(STATE_PPS_UPDATE);  
 }
 
@@ -28,7 +28,7 @@ void  query_gps() {
       if (get_state()==STATE_READY) set_state(STATE_FIX_LOST);
       return;
     };
-    
+    set_state(STATE_READY);
   }
     
 }

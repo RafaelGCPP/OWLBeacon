@@ -12,7 +12,7 @@ void setup() {
 
   console.begin(CONSOLE_BAUD_RATE);
   
-  current_state=STATE_NO_FIX;
+  set_state(STATE_NO_FIX);
 
   pinMode(PIN_LCD_POWER_ON, OUTPUT);
   digitalWrite(PIN_LCD_POWER_ON, LOW);

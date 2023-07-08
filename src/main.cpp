@@ -1,28 +1,33 @@
 #include <Arduino.h>
 #include <HardwareSerial.h>
-
+#include "gps.h"
 #include "display.h"
 #include "pins.h"
+#include "config.h"
+#include "state.h"
 
 HWCDC console=Serial;
-HardwareSerial gps_serial(1);
 
 void setup() {
 
-  console.begin(115200);
-  gps_serial.begin(115200,SERIAL_8N1,PIN_UART1_RXD,PIN_UART1_TXD);
+  console.begin(CONSOLE_BAUD_RATE);
+  
+  set_state(STATE_NO_FIX);
 
   pinMode(PIN_LCD_POWER_ON, OUTPUT);
-  digitalWrite(PIN_LCD_POWER_ON, HIGH);
+  digitalWrite(PIN_LCD_POWER_ON, LOW);
 
+  setup_gps();
 
   setup_display();
 
+  console.print("Teste");
 
 }
 
 void loop() {
-  update_display();
+  update_display();  
+  query_gps();
 
 }
 

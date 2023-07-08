@@ -1,18 +1,33 @@
 #include <Arduino.h>
+#include <HardwareSerial.h>
+#include "gps.h"
+#include "display.h"
+#include "pins.h"
+#include "config.h"
+#include "state.h"
 
-// put function declarations here:
-int myFunction(int, int);
+HWCDC console=Serial;
 
 void setup() {
-  // put your setup code here, to run once:
-  int result = myFunction(2, 3);
+
+  console.begin(CONSOLE_BAUD_RATE);
+  
+  set_state(STATE_NO_FIX);
+
+  pinMode(PIN_LCD_POWER_ON, OUTPUT);
+  digitalWrite(PIN_LCD_POWER_ON, LOW);
+
+  setup_gps();
+
+  setup_display();
+
+  console.print("Teste");
+
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
+  update_display();  
+  query_gps();
+
 }
 
-// put function definitions here:
-int myFunction(int x, int y) {
-  return x + y;
-}

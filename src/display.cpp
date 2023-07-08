@@ -22,6 +22,7 @@ void milionths_to_string(long value, char *out)
     float seconds;
 
     result=ldiv(abs(value),1000000L);
+    degrees=result.quot;
     value=result.rem*60;
 
     result=ldiv(value,1000000L);
@@ -71,7 +72,6 @@ void update_display()
     }
     char buffer[BUFFER_SIZE];
     tft.setCursor(5, 5, 4);
-
   
     long l=gps_data.getLatitude();
     milionths_to_string(l,buffer);
@@ -80,6 +80,8 @@ void update_display()
     tft.print(buffer);
     tft.println((l>0)?" N":" S");
 
+    
+    tft.setCursor(5, tft.getCursorY());
 
     l=gps_data.getLongitude();
     milionths_to_string(l,buffer);
@@ -87,5 +89,14 @@ void update_display()
     tft.print("Lon: ");
     tft.print(buffer);
     tft.println((l>0)?" E":" W");
+    tft.println();
+
+    snprintf(buffer,BUFFER_SIZE,"%02d/%02d/%4d",gps_data.getDay(),gps_data.getMonth(),gps_data.getYear());
+    tft.setCursor(5, tft.getCursorY());
+    tft.println(buffer);
+
+    tft.setCursor(5, tft.getCursorY());
+    snprintf(buffer,BUFFER_SIZE,"%02d:%02d:%02d UTC",gps_data.getHour(),gps_data.getMinute(),gps_data.getSecond());
+    tft.println(buffer);
 
 }

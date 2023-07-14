@@ -15,13 +15,8 @@ void setup() {
   
   set_state(STATE_NO_FIX);
 
-  pinMode(PIN_LCD_POWER_ON, OUTPUT);
-  digitalWrite(PIN_LCD_POWER_ON, LOW);
-
   setup_gps();
-
   setup_display();
-
   setup_rfgen();
 
   console.print("Teste");

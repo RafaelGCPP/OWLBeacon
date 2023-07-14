@@ -2,6 +2,7 @@
 #include "state.h"
 #include "gps.h"
 #include "config.h"
+#include "pins.h"
 
 enum TransceiverState previous_state;
 
@@ -10,28 +11,32 @@ TFT_eSPI tft = TFT_eSPI();
 void setup_display()
 {
     previous_state = STATE_UNDEFINED;
+
     tft.init();
     tft.setRotation(1);
     tft.fillScreen(TFT_BLACK);
+
+    pinMode(PIN_LCD_POWER_ON, OUTPUT);
+    digitalWrite(PIN_LCD_POWER_ON, LOW);
 }
 
-void milionths_to_string(long value, char *out) 
+void milionths_to_string(long value, char *out)
 {
     ldiv_t result;
     int degrees, minutes;
     float seconds;
 
-    result=ldiv(abs(value),1000000L);
-    degrees=result.quot;
-    value=result.rem*60;
+    result = ldiv(abs(value), 1000000L);
+    degrees = result.quot;
+    value = result.rem * 60;
 
-    result=ldiv(value,1000000L);
-    minutes=result.quot;
+    result = ldiv(value, 1000000L);
+    minutes = result.quot;
 
-    value=result.rem*60;
-    seconds=value/1.0e6;
+    value = result.rem * 60;
+    seconds = value / 1.0e6;
 
-    snprintf(out,BUFFER_SIZE,"%d`%d'%5.2f\"",degrees,minutes,seconds);
+    snprintf(out, BUFFER_SIZE, "%d`%d'%5.2f\"", degrees, minutes, seconds);
 }
 
 void update_display()
@@ -72,31 +77,29 @@ void update_display()
     }
     char buffer[BUFFER_SIZE];
     tft.setCursor(5, 5, 4);
-  
-    long l=gps_data.getLatitude();
-    milionths_to_string(l,buffer);
+
+    long l = gps_data.getLatitude();
+    milionths_to_string(l, buffer);
 
     tft.print("Lat: ");
     tft.print(buffer);
-    tft.println((l>0)?" N":" S");
+    tft.println((l > 0) ? " N" : " S");
 
-    
     tft.setCursor(5, tft.getCursorY());
 
-    l=gps_data.getLongitude();
-    milionths_to_string(l,buffer);
+    l = gps_data.getLongitude();
+    milionths_to_string(l, buffer);
 
     tft.print("Lon: ");
     tft.print(buffer);
-    tft.println((l>0)?" E":" W");
+    tft.println((l > 0) ? " E" : " W");
     tft.println();
 
-    snprintf(buffer,BUFFER_SIZE,"%02d/%02d/%4d",gps_data.getDay(),gps_data.getMonth(),gps_data.getYear());
+    snprintf(buffer, BUFFER_SIZE, "%02d/%02d/%4d", gps_data.getDay(), gps_data.getMonth(), gps_data.getYear());
     tft.setCursor(5, tft.getCursorY());
     tft.println(buffer);
 
     tft.setCursor(5, tft.getCursorY());
-    snprintf(buffer,BUFFER_SIZE,"%02d:%02d:%02d UTC",gps_data.getHour(),gps_data.getMinute(),gps_data.getSecond());
+    snprintf(buffer, BUFFER_SIZE, "%02d:%02d:%02d UTC", gps_data.getHour(), gps_data.getMinute(), gps_data.getSecond());
     tft.println(buffer);
-
 }

@@ -5,6 +5,7 @@
 #include "pins.h"
 #include "config.h"
 #include "state.h"
+#include "rfgen.h"
 
 HWCDC console=Serial;
 
@@ -20,6 +21,8 @@ void setup() {
   setup_gps();
 
   setup_display();
+
+  setup_rfgen();
 
   console.print("Teste");
 

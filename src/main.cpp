@@ -8,46 +8,44 @@
 #include "rfgen.h"
 #include <Preferences.h>
 
-HWCDC console=Serial;
+HWCDC console = Serial;
 Preferences preferences;
 
-
-void get_preferences() 
+void get_preferences()
 {
-  //get preferences
+  // get preferences
   preferences.begin("owlbeacon", false);
-  si5351_calibration=preferences.getInt("si5351_calibration", 0);
+  si5351_calibration = preferences.getInt("si5351_calibration", 0);
   preferences.getString("callsign", callsign, 7);
   preferences.end();
 }
 
-
-void save_preferences() 
+void save_preferences()
 {
-  //save preferences
+  // save preferences
   preferences.begin("owlbeacon", false);
   preferences.putInt("si5351_calibration", si5351_calibration);
   preferences.putString("callsign", callsign);
   preferences.end();
 }
 
-void setup() {
+void setup()
+{
 
-  //setup console
+  // setup console
   console.begin(CONSOLE_BAUD_RATE);
-  
-  //setup initial state
+
+  // setup initial state
   set_state(STATE_NO_FIX);
 
-  //setup peripherals
+  // setup peripherals
   setup_gps();
   setup_display();
   setup_rfgen();
-
 }
 
-void loop() {
-  update_display();  
+void loop()
+{
+  update_display();
   query_gps();
 }
-

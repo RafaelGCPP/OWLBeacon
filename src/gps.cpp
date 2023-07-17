@@ -121,6 +121,25 @@ void maidenhead(long lat, long lon, int size, char *locator)
     locator[7] = (char)(((int)(dlat.quot)) + '0');
     locator[8] = '\0';
   }
+
+  if (size >= 10)
+  {
+    // calculate extended square: there are 24 extended squares in each subsquare
+    // Taking the longitude as example (the latitute is analogous):
+    // the remainder is 25.000th of a subsquare. Thus, the extended square is
+    // 24 * rem / 25.000 = rem   * 3 / 3125
+    // For the latitude we have
+    // 24 * rem / 12.5000 =  rem * 6/ 3125
+
+    lon = dlon.rem;
+    lat = dlat.rem;
+
+    dlon = ldiv(lon *3, 3125);
+    dlat = ldiv(lat *6, 3125);
+    locator[8] = (char)(((int)(dlon.quot)) + 'a');
+    locator[9] = (char)(((int)(dlat.quot)) + 'a');
+    locator[10] = '\0';
+  }
 }
 
 long get_latitude_long()

@@ -17,6 +17,8 @@ void get_preferences()
   preferences.begin("owlbeacon", false);
   si5351_calibration = preferences.getInt("si5351_calibration", 0);
   preferences.getString("callsign", callsign, 7);
+  frequency = preferences.getULong64("frequency", 2810000000ULL);
+  dbm = preferences.getInt("dbm", 0);
   preferences.end();
 }
 
@@ -26,6 +28,8 @@ void save_preferences()
   preferences.begin("owlbeacon", false);
   preferences.putInt("si5351_calibration", si5351_calibration);
   preferences.putString("callsign", callsign);
+  preferences.putULong64("frequency", frequency);
+  preferences.putInt("dbm", dbm);
   preferences.end();
 }
 

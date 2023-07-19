@@ -46,10 +46,35 @@ void setup()
   setup_gps();
   setup_display();
   setup_rfgen();
+  update_display();
 }
 
 void loop()
 {
-  update_display();
+  TransceiverState previous_state = get_state();
+
   query_gps();
+
+  switch (get_state())
+    {
+    case STATE_PPS_UPDATE:
+      update_display();
+      set_state(STATE_READY);
+      break;
+    case STATE_TRANSMITTING:
+      if (previous_state != STATE_TRANSMITTING)
+      {
+        start_transmitting();
+      }
+      break;
+    case STATE_FIX_LOST:
+      if (previous_state != STATE_FIX_LOST)
+      {
+        update_display();
+      }
+      break;
+
+    default:
+      break;
+    }
 }

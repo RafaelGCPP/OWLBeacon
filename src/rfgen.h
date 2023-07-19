@@ -10,3 +10,4 @@ extern int dbm;
 extern unsigned long long frequency;
 
 void setup_rfgen();
+void start_transmitting();

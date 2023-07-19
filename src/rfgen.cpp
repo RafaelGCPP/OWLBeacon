@@ -33,7 +33,8 @@ void setup_rfgen()
     rfgen.output_enable(SI5351_CLK2, 0);
 }
 
-void wspr_beacon_thread()
+
+void wspr_beacon_thread(void * parameter)
 {
     JTEncode jtencode;
     char locator[5];
@@ -58,4 +59,17 @@ void wspr_beacon_thread()
         delay(WSPR_TONE_DELAY);
     }
     rfgen.output_enable(SI5351_CLK0, 0);
+    set_state(STATE_READY);
+}
+
+
+void start_transmitting() {
+    xTaskCreatePinnedToCore(
+        wspr_beacon_thread, /* Function to implement the task */
+        "wspr beacon thread", /* Name of the task */
+        10000,  /* Stack size in words */
+        NULL,  /* Task input parameter */
+        1,  /* Priority of the task */
+        NULL,  /* Task handle. */
+        0); /* Core where the task should run */
 }

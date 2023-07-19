@@ -33,7 +33,7 @@ void setup_rfgen()
     rfgen.output_enable(SI5351_CLK2, 0);
 }
 
-void wspr_beacon()
+void wspr_beacon_thread()
 {
     JTEncode jtencode;
     char locator[5];

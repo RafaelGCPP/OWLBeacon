@@ -9,6 +9,7 @@ HardwareSerial gps_serial(1);
 char buffer[BUFFER_SIZE];
 MicroNMEA gps_data(buffer, BUFFER_SIZE);
 
+
 bool in_scheduled_time()
 {
   return (gps_data.getMinute() % 2 == 0) && (gps_data.getSecond() >= 0) && (gps_data.getSecond() < 2);
@@ -17,10 +18,11 @@ bool in_scheduled_time()
 // PPS interrupt handler
 void IRAM_ATTR pps_interrupt()
 {
+  
   if (in_scheduled_time())
-    set_state(STATE_TRANSMITTING);
+    set_state_from_isr(STATE_TRANSMITTING);
   else
-    set_state(STATE_PPS_UPDATE);
+    set_state_from_isr(STATE_PPS_UPDATE);
 }
 
 // GPS setup

@@ -22,7 +22,6 @@ void IRAM_ATTR pps_interrupt()
   else
     set_state(STATE_PPS_UPDATE);
 }
-}
 
 // GPS setup
 // GPS is connected to UART1

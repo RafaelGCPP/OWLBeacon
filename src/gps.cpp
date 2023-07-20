@@ -9,22 +9,19 @@ HardwareSerial gps_serial(1);
 char buffer[BUFFER_SIZE];
 MicroNMEA gps_data(buffer, BUFFER_SIZE);
 
-bool in_scheduled_time() {
+bool in_scheduled_time()
+{
   return (gps_data.getMinute() % 2 == 0) && (gps_data.getSecond() >= 0) && (gps_data.getSecond() < 2);
 }
 
 // PPS interrupt handler
 void IRAM_ATTR pps_interrupt()
 {
-  if (get_state() == STATE_READY)
-  {
-    if (in_scheduled_time())
-      set_state(STATE_PPS_UPDATE);
-    else
-      set_state(STATE_TRANSMITTING);
-  } else if (get_state() == STATE_TRANSMITTING) {
+  if (in_scheduled_time())
+    set_state(STATE_TRANSMITTING);
+  else
     set_state(STATE_PPS_UPDATE);
-  }
+}
 }
 
 // GPS setup
@@ -206,8 +203,7 @@ void query_gps()
       return;
     if (!gps_data.isValid())
     {
-      if (get_state() == STATE_READY)
-        set_state(STATE_FIX_LOST);
+      set_state(STATE_FIX_LOST);
       return;
     };
     set_state(STATE_READY);

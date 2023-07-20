@@ -11,4 +11,3 @@ enum TransceiverState {
 
 // extern TransceiverState current_state;
 void set_state(TransceiverState);
-TransceiverState get_state();

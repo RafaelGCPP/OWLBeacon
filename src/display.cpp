@@ -20,9 +20,8 @@ void setup_display()
     digitalWrite(PIN_LCD_POWER_ON, LOW);
 }
 
-void update_display()
+void update_display(TransceiverState current_state)
 {
-    TransceiverState current_state = get_state();
 
     if (previous_state == current_state)
         return;

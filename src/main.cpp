@@ -44,6 +44,7 @@ void setup()
   setup_rfgen();
 
   // setup initial state
+  update_display(STATE_NO_FIX);
   set_state(STATE_NO_FIX);
 }
 

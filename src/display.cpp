@@ -4,13 +4,11 @@
 #include "config.h"
 #include "pins.h"
 
-enum TransceiverState previous_state;
 
 TFT_eSPI tft = TFT_eSPI();
 
 void setup_display()
 {
-    previous_state = STATE_UNDEFINED;
 
     tft.init();
     tft.setRotation(1);
@@ -23,10 +21,6 @@ void setup_display()
 void update_display(TransceiverState current_state)
 {
 
-    if (previous_state == current_state)
-        return;
-
-    previous_state = current_state;
 
     switch (current_state)
     {

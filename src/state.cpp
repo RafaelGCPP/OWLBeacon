@@ -5,6 +5,7 @@
 TransceiverState current_state;
 portMUX_TYPE state_spinlock = portMUX_INITIALIZER_UNLOCKED;
 
+extern HWCDC console;
 void set_state_internal(TransceiverState new_state)
 {
     if (current_state == new_state)
@@ -16,13 +17,29 @@ void set_state_internal(TransceiverState new_state)
         update_display(current_state);
         return;
 
-    case STATE_TRANSMITTING:
+    case STATE_BEGIN_TRANSMIT:
+        if (current_state == STATE_TRANSMITTING)
+        {
+            update_display(current_state);
+            return; // already transmitting, need to update display anyway
+        }
         start_transmitting();
+        new_state = STATE_TRANSMITTING;
+        break;
+
+    case STATE_FIX_ACQUIRED:
+        if (current_state == STATE_TRANSMITTING)
+            return; // wait for the transmission to finish
+        if (current_state == STATE_READY)
+            return; // nothing to do
+        new_state = STATE_READY;
         break;
 
     case STATE_FIX_LOST:
         if (current_state == STATE_TRANSMITTING)
             return; // wait for the transmission to finish
+        if (current_state == STATE_NO_FIX)
+            return; // nothing to do
         break;
 
     default:
@@ -31,6 +48,7 @@ void set_state_internal(TransceiverState new_state)
 
     current_state = new_state;
     update_display(current_state);
+    console.printf("State: %d\n", current_state);
 }
 
 void set_state_from_isr(TransceiverState new_state)

@@ -35,7 +35,6 @@ void setup_rfgen()
 
 void wspr_beacon_thread(void *parameter)
 {
-    /*
     JTEncode jtencode;
     char locator[5];
     uint8_t tx_buffer[WSPR_SYMBOL_COUNT];
@@ -59,9 +58,8 @@ void wspr_beacon_thread(void *parameter)
         delay(WSPR_TONE_DELAY);
     }
     rfgen.output_enable(SI5351_CLK0, 0);
-    */
-    delay(30000);
     set_state(STATE_READY);
+    vTaskDelete(NULL);
 }
 
 void start_transmitting()

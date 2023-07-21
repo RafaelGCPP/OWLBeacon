@@ -20,7 +20,7 @@ void IRAM_ATTR pps_interrupt()
 {
   
   if (in_scheduled_time())
-    set_state_from_isr(STATE_TRANSMITTING);
+    set_state_from_isr(STATE_BEGIN_TRANSMIT);
   else
     set_state_from_isr(STATE_PPS_UPDATE);
 }
@@ -207,6 +207,6 @@ void query_gps()
       set_state(STATE_FIX_LOST);
       return;
     };
-    set_state(STATE_READY);
+    set_state(STATE_FIX_ACQUIRED);
   }
 }

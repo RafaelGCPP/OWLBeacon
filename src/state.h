@@ -1,12 +1,15 @@
 #pragma once
 
-enum TransceiverState {
+enum TransceiverState
+{
     STATE_NO_FIX,
+    STATE_FIX_ACQUIRED,
     STATE_READY,
     STATE_PPS_UPDATE,
+    STATE_BEGIN_TRANSMIT,
     STATE_TRANSMITTING,
     STATE_FIX_LOST,
-    STATE_UNDEFINED=-1
+    STATE_UNDEFINED = -1
 };
 
 // extern TransceiverState current_state;
